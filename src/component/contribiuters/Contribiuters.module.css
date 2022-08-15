@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@800&display=swap');
+
+.container {
+  box-sizing: border-box;
+  padding: 24px;
+  overflow: hidden;
+  max-width: 1280px;
+  width: 100%;
+  height: 260px;
+  background-image: url("../../../public/image\ 6.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-shadow: 2px 2px 5px lightgrey;
+}
+
+.ContribiutersText {
+  color: #39475D;
+  font-family: 'Assistant', sans-serif;
+  font-weight: 800;
+  font-size: 32px;
+  line-height: 42px;
+}
+
+.bodyContainer {
+  position: relative;
+}
+
+.ContributerCardContainer {
+  display: flex;
+  margin-top: 24px;
+  overflow-x: clip;
+}
+
+.bodyContainer button {
+  position: absolute;
+  height: 20px;
+  background: none;
+  background-image: url("../../../public/images/arrow.svg");
+  background-repeat: no-repeat;
+  border: none;
+  background-size: contain;
+  cursor: pointer;
+  top: 50%;
+}
+
+.buttonSlideLeft {
+  left: 0;
+}
+
+.buttonSlideRight {
+  right: 0;
+  transform: rotate(180deg);
+}
+
+@media screen and (max-width: 1280px) {
+  .container {
+    margin: 0 16px 0 16px;
+  }
+}

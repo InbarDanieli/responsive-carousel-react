@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@700&display=swap');
+
+.contContainer {
+  cursor: pointer;
+  position: relative;
+  Height: 148px;
+  background-image: url("../../../public/images/inbar.jpg");
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: cover;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.contContainer::after {
+  content: " ";
+  background: linear-gradient(180deg, #01007d 0%, #832ec6 47.92%, #dc665e 100%), url("../../../public/images/inbar.jpg");
+  Height: 100%;
+  Width: 100%;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: inherit;
+  transition: opacity 0.3s ease;
+}
+
+.contContainer:hover::after {
+  opacity: 0.6;
+}
+
+.contributetext {
+  align-self: center;
+  font-family: 'Assistant', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 32px;
+  opacity: 0;
+  position: relative;
+  color: #FFFFFF;
+  text-align: center;
+  user-select: none;
+}
+
+.contContainer:hover .contributetext {
+  opacity: 1;
+  z-index: 1;
+}

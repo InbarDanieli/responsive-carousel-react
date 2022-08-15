@@ -1,23 +1,15 @@
-import logo from './logo.svg';
 import './App.css';
+import Contribiuters from './component/contribiuters/Contribiuters';
 
 function App() {
+  //can also be an object with {github name, contributer want to call in the page name}
+  // for ex: {githubName: "InbarDanieli", display-name: "inbar danieli"}
+  // from the githubName we can take the image
+const contributersInfo = ["mr-sparkel", "michal" , "inbar", "omri", "inbaro"]
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Contribiuters contribiuterNames={contributersInfo}/>
     </div>
   );
 }
