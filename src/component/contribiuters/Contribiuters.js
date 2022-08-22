@@ -8,6 +8,38 @@ function Contribiuters({ contribiuterNames }) {
   const MinGapBetweenCards = 8
   const paddingBodyContainer = 60
 
+
+
+
+  const [touchStart, setTouchStart] = useState(null)
+  const [touchEnd, setTouchEnd] = useState(null)
+
+  // the required distance between touchStart and touchEnd to be detected as a swipe
+  const minSwipeDistance = 50
+
+  const onTouchStart = (e) => {
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+
+  const onTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX)
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) {
+      return setTouchEnd(null)
+    }
+    const distance = touchStart - touchEnd
+    const isLeftSwipe = distance > minSwipeDistance
+    const isRightSwipe = distance < -minSwipeDistance
+    if (isLeftSwipe || isRightSwipe) {
+      isLeftSwipe ? slideToRight() : slideToLeft();
+    }
+    setTouchEnd(null)
+  }
+
+
+
+
+
   const myref = useRef()
   const [contributerContainerSize, setContributerContainerSize] = useState()
   const [iconSlide, setIconSlide] = useState(0)
@@ -59,6 +91,9 @@ function Contribiuters({ contribiuterNames }) {
       <div
         className={style.bodyContainer}
         ref={myref}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
         style={{ padding: `${carouselNeeded ? `0 ${paddingBodyContainer}px` : "0 0"}` }}
       >
         <button
