@@ -1,5 +1,5 @@
 import './App.css';
-import Contribiuters from './component/contribiuters/Contribiuters';
+import Contribiuters from './lib/contribiuters/Contribiuters';
 
 function App() {
   //can also be an object with {github name, contributer want to call in the page name}
