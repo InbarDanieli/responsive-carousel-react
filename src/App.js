@@ -5,11 +5,23 @@ function App() {
   //can also be an object with {github name, contributer want to call in the page name}
   // for ex: {githubName: "InbarDanieli", display-name: "inbar danieli"}
   // from the githubName we can take the image
-const contributersInfo = ["mr-sparkel", "michal" , "inbar", "omri", "inbaro"]
-
+  const contribiuterNames = ["mr-sparkel", "michal", "inbar", "omri", "inbaro"]
+  const maxGapItems = 24
+  const minGapItems = 8
+  const paddingBodyContainer = 60
+  // the required distance between touchStart and touchEnd to be detected as a swipe
+  const swipeSensativity = 50
   return (
     <div className="App">
-      <Contribiuters contribiuterNames={contributersInfo}/>
+      <Contribiuters
+        contribiuterNames={contribiuterNames}
+        maxGapItems={maxGapItems}
+        minGapItems={minGapItems}
+        paddingBodyContainer={paddingBodyContainer}
+        swipeSensativity={swipeSensativity}
+      >
+        
+      </Contribiuters>
     </div>
   );
 }
