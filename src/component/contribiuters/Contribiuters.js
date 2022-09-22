@@ -2,91 +2,115 @@ import React, { useEffect, useRef, useState } from 'react'
 import ContributerCard from '../contributerCard/ContributerCard'
 import style from "./Contribiuters.module.css"
 
-function Contribiuters({ contribiuterNames }) {
-  const ItemSize = 152
-  const gapBetweenItems = 24
-  // the minimum gap between cards
-  const MinGapBetweenItems = 8
-  const paddingBodyContainer = 60
-  // the required distance between touchStart and touchEnd to be detected as a swipe
-  const minSwipeDistance = 50
+// TODO ensble getting children elements
+// TODO add Docs to *every* function
 
+function Contribiuters({ contribiuterNames, maxGapItems, minGapItems, paddingBodyContainer, swipeSensativity }) {
+  // think what to do with it / from where to get it
+  const ItemWidth = 152
 
-  const myref = useRef()
+  const bodyContainer = useRef()
   const [touchStart, setTouchStart] = useState(null)
   const [touchEnd, setTouchEnd] = useState(null)
-  const [contributerContainerSize, setContributerContainerSize] = useState()
-  const [iconSlide, setIconSlide] = useState(0)
+  const [containerSize, setContainerSize] = useState()
+  const [itemTransalte, setItemTransalte] = useState(0)
   const [carouselNeeded, setCarouselNeeded] = useState(false)
-  const [gapCards, setGapCards] = useState(gapBetweenItems)
-  const [cardsAmount, setCardsAmount] = useState(0)
+  const [gapItems, setGapItems] = useState(maxGapItems)
+  const [itemsAmount, setItemsAmount] = useState(0)
 
-
+  // TODO add docs about the useEffect, what dose it calculate?
   useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    handleResize();
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
     function handleResize() {
-      const fullContainerSize = myref.current.clientWidth
-      setCardsAmount(Math.floor((fullContainerSize - paddingBodyContainer * 2 + MinGapBetweenItems) / (ItemSize + MinGapBetweenItems)));
-      setContributerContainerSize(fullContainerSize - (paddingBodyContainer * 2))
-      setIconSlide(0) // try to find solution!
+      const fullContainerSize = bodyContainer.current.clientWidth
+      setItemsAmount(Math.floor((fullContainerSize - paddingBodyContainer * 2 + minGapItems) / (ItemWidth + minGapItems)));
+      setContainerSize(fullContainerSize - (paddingBodyContainer * 2))
+      setItemTransalte(0) // try to find solution!
 
-      const fullCardsContainerLength = (contribiuterNames.length) * ItemSize + gapBetweenItems * (contribiuterNames.length - 1)
+      const fullCardsContainerLength = (contribiuterNames.length) * ItemWidth + maxGapItems * (contribiuterNames.length - 1)
       if (fullContainerSize > fullCardsContainerLength) {
         return setCarouselNeeded(false)
       }
       setCarouselNeeded(true)
     }
-  }, [myref, contribiuterNames])
 
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [bodyContainer, contribiuterNames, minGapItems, paddingBodyContainer, maxGapItems])
+
+  // TODO add docs about the useEffect, what dose it calculate?
   useEffect(() => {
-    setGapCards((contributerContainerSize - (cardsAmount * ItemSize)) / (cardsAmount))
-  }, [contributerContainerSize, cardsAmount])
+    setGapItems((containerSize - (itemsAmount * ItemWidth)) / (itemsAmount))
+  }, [containerSize, itemsAmount])
 
-
+  /**
+   * save the location of the firt touch on the screen
+   * @param {Event} e
+   */
   function onTouchStart(e) {
     setTouchStart(e.targetTouches[0].clientX)
   }
+
+  /**
+   * update the location where the finger swipes
+   * @param {Event} e 
+   */
   function onTouchMove(e) {
     setTouchEnd(e.targetTouches[0].clientX)
   }
+
+  /**
+   * *****************
+   * @returns 
+   */
   function onTouchEnd() {
     if (!touchStart || !touchEnd) {
       return setTouchEnd(null)
     }
+
     const distance = touchStart - touchEnd
-    const isLeftSwipe = distance > minSwipeDistance
-    const isRightSwipe = distance < -minSwipeDistance
+    const isLeftSwipe = distance > swipeSensativity
+    const isRightSwipe = distance < -swipeSensativity
+
     if (isLeftSwipe || isRightSwipe) {
       isLeftSwipe ? slideToRight() : slideToLeft();
     }
+
     setTouchEnd(null)
   }
 
-
+  /**
+   * *************** what does it caculate
+   * slide the items to the right
+   * @returns {number}
+   */
   function slideToRight() {
-    if (iconSlide - contributerContainerSize < - ((contribiuterNames.length) * ItemSize + gapCards * ((contribiuterNames.length - 1)))) {
-      return setIconSlide(0)
+    if (itemTransalte - containerSize < - ((contribiuterNames.length) * ItemWidth + gapItems * ((contribiuterNames.length - 1)))) {
+      return setItemTransalte(0)
     }
-    setIconSlide(iconSlide - contributerContainerSize)
-  }
-  function slideToLeft() {
-    if (iconSlide >= 0) {
-      return setIconSlide(- ((Math.floor(contribiuterNames.length / cardsAmount) - (contribiuterNames.length % cardsAmount === 0 ? 1 : 0)) * contributerContainerSize))
-    }
-    setIconSlide(iconSlide + contributerContainerSize)
+    setItemTransalte(itemTransalte - containerSize)
   }
 
+  /**
+ * slide the items to the left
+ * @returns {number}
+ */
+  function slideToLeft() {
+    if (itemTransalte >= 0) {
+      return setItemTransalte(- ((Math.floor(contribiuterNames.length / itemsAmount) - (contribiuterNames.length % itemsAmount === 0 ? 1 : 0)) * containerSize))
+    }
+    setItemTransalte(itemTransalte + containerSize)
+  }
 
   return (
     <div className={style.container}>
       <span className={style.ContribiutersText}>Contributers</span>
       <div
         className={style.bodyContainer}
-        ref={myref}
+        ref={bodyContainer}
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
@@ -94,25 +118,26 @@ function Contribiuters({ contribiuterNames }) {
       >
         <button
           onClick={slideToLeft}
-          style={{ display: `${carouselNeeded ? "" : "none"}` }}
+          hidden={!carouselNeeded}
           className={style.buttonSlideLeft}>
         </button>
         <div
           className={style.ContributerCardContainer}
-          style={{ gap: `${carouselNeeded ? gapCards : gapBetweenItems}px` }}
+          style={{ gap: `${carouselNeeded ? gapItems : maxGapItems}px` }}
         >
           {contribiuterNames.map((name, index) =>
+          // make it a parameter of container?
             <ContributerCard
               key={index}
-              contributerCardSize={ItemSize}
-              slide={iconSlide + (carouselNeeded && (gapCards) / 2)}
+              contributerCardWidth={ItemWidth}
+              slide={itemTransalte + (carouselNeeded && (gapItems) / 2)}
               contributerName={name}
             />
           )}
         </div>
         <button
           onClick={slideToRight}
-          style={{ display: `${carouselNeeded ? "" : "none"}` }}
+          hidden={!carouselNeeded}
           className={style.buttonSlideRight}>
         </button>
       </div>
@@ -121,3 +146,11 @@ function Contribiuters({ contribiuterNames }) {
 }
 
 export default Contribiuters
+
+Contribiuters.defaultProps = {
+  contribiuterNames: ["test", "test2"],
+  maxGapItems: 24,
+  minGapItems: 8,
+  paddingBodyContainer: 60,
+  swipeSensativity: 50
+}
