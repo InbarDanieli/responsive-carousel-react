@@ -1,10 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@700&display=swap');
 
 .contContainer {
+  width: 200px;
   cursor: pointer;
   position: relative;
-  Height: 148px;
-  background-image: url("../../../public/images/inbar.jpg");
+  Height: 248px;
+  background-image: url("../../public/images/inbar.jpg");
   background-repeat: no-repeat;
   background-position: 50% 50%;
   background-size: cover;
@@ -17,7 +18,7 @@
 
 .contContainer::after {
   content: " ";
-  background: linear-gradient(180deg, #01007d 0%, #832ec6 47.92%, #dc665e 100%), url("../../../public/images/inbar.jpg");
+  background: linear-gradient(180deg, #01007d 0%, #832ec6 47.92%, #dc665e 100%), url("../../public/images/inbar.jpg");
   Height: 100%;
   Width: 100%;
   opacity: 0;

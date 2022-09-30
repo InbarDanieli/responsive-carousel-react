@@ -1,5 +1,7 @@
 import './App.css';
+
 import Contribiuters from './lib/contribiuters/Contribiuters';
+import Testy from './testComponent/ContributerCard';
 
 function App() {
   //can also be an object with {github name, contributer want to call in the page name}
@@ -14,13 +16,14 @@ function App() {
   return (
     <div className="App">
       <Contribiuters
+        title="test"
         contribiuterNames={contribiuterNames}
         maxGapItems={maxGapItems}
         minGapItems={minGapItems}
         paddingBodyContainer={paddingBodyContainer}
         swipeSensativity={swipeSensativity}
       >
-        
+        {contribiuterNames.map(name => <Testy contributerName={name}></Testy>)}
       </Contribiuters>
     </div>
   );
