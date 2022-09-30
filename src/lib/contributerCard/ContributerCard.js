@@ -1,16 +1,17 @@
-import React from 'react'
-import style from "./ContributerCard.module.css"
-function ContributerCard({ contributerName, slide, contributerCardWidth }) {
+import React, { useEffect, useRef } from 'react'
+function ContributerCard({ style, children, onWidthUpdate }) {
+  /**
+   * @type {import("react").MutableRefObject <HTMLDivElement>}
+   */
+  const childrenRef = useRef(null)
+  useEffect(() => {
+    onWidthUpdate(childrenRef.current.clientWidth)
+  }, [childrenRef, onWidthUpdate])
   return (
-    <div
-      style={{
-        transform: `translatex(${slide}px)`,
-        width: `${contributerCardWidth}px`,
-        minWidth: `${contributerCardWidth}px`
-      }}
-      // all of this can be component
-      className={style.contContainer}>
-      <span className={style.contributetext}>{contributerName}</span>
+    <div ref={childrenRef}
+      style={style}
+    >
+      {children}
     </div>
   )
 }

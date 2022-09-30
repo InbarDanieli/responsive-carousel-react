@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
-import ContributerCard from '../contributerCard/ContributerCard'
 import style from "./Contribiuters.module.css"
+import ContributerCard from '../contributerCard/ContributerCard'
+import GreaterThan from '../GreaterThan'
 
 // TODO ensble getting children elements
 // TODO add Docs to *every* function
 
-function Contribiuters({ contribiuterNames, maxGapItems, minGapItems, paddingBodyContainer, swipeSensativity }) {
-  // think what to do with it / from where to get it
-  const ItemWidth = 152
-
+function Contribiuters({ maxGapItems, minGapItems, paddingBodyContainer, swipeSensativity, title, children, carouselStyle, titleStyle }) {
+  // TODO think what to do with it / from where to get it
   const bodyContainer = useRef()
+  const [childWidth, setChildWidth] = useState(0)
   const [touchStart, setTouchStart] = useState(null)
   const [touchEnd, setTouchEnd] = useState(null)
   const [containerSize, setContainerSize] = useState()
@@ -22,11 +22,11 @@ function Contribiuters({ contribiuterNames, maxGapItems, minGapItems, paddingBod
   useEffect(() => {
     function handleResize() {
       const fullContainerSize = bodyContainer.current.clientWidth
-      setItemsAmount(Math.floor((fullContainerSize - paddingBodyContainer * 2 + minGapItems) / (ItemWidth + minGapItems)));
+      setItemsAmount(Math.floor((fullContainerSize - paddingBodyContainer * 2 + minGapItems) / (childWidth + minGapItems)));
       setContainerSize(fullContainerSize - (paddingBodyContainer * 2))
       setItemTransalte(0) // try to find solution!
 
-      const fullCardsContainerLength = (contribiuterNames.length) * ItemWidth + maxGapItems * (contribiuterNames.length - 1)
+      const fullCardsContainerLength = (React.Children.count(children)) * childWidth + maxGapItems * (React.Children.count(children) - 1)
       if (fullContainerSize > fullCardsContainerLength) {
         return setCarouselNeeded(false)
       }
@@ -39,12 +39,12 @@ function Contribiuters({ contribiuterNames, maxGapItems, minGapItems, paddingBod
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [bodyContainer, contribiuterNames, minGapItems, paddingBodyContainer, maxGapItems])
+  }, [bodyContainer, children, minGapItems, paddingBodyContainer, maxGapItems, childWidth])
 
   // TODO add docs about the useEffect, what dose it calculate?
   useEffect(() => {
-    setGapItems((containerSize - (itemsAmount * ItemWidth)) / (itemsAmount))
-  }, [containerSize, itemsAmount])
+    setGapItems((containerSize - (itemsAmount * childWidth)) / (itemsAmount))
+  }, [containerSize, itemsAmount, childWidth])
 
   /**
    * save the location of the firt touch on the screen
@@ -88,7 +88,7 @@ function Contribiuters({ contribiuterNames, maxGapItems, minGapItems, paddingBod
    * @returns {number}
    */
   function slideToRight() {
-    if (itemTransalte - containerSize < - ((contribiuterNames.length) * ItemWidth + gapItems * ((contribiuterNames.length - 1)))) {
+    if (itemTransalte - containerSize < - ((React.Children.count(children)) * childWidth + gapItems * ((React.Children.count(children) - 1)))) {
       return setItemTransalte(0)
     }
     setItemTransalte(itemTransalte - containerSize)
@@ -100,14 +100,14 @@ function Contribiuters({ contribiuterNames, maxGapItems, minGapItems, paddingBod
  */
   function slideToLeft() {
     if (itemTransalte >= 0) {
-      return setItemTransalte(- ((Math.floor(contribiuterNames.length / itemsAmount) - (contribiuterNames.length % itemsAmount === 0 ? 1 : 0)) * containerSize))
+      return setItemTransalte(- ((Math.floor(React.Children.count(children) / itemsAmount) - (React.Children.count(children) % itemsAmount === 0 ? 1 : 0)) * containerSize))
     }
     setItemTransalte(itemTransalte + containerSize)
   }
 
   return (
-    <div className={style.container}>
-      <span className={style.ContribiutersText}>Contributers</span>
+    <div className={style.container} style={carouselStyle}>
+      <span className={style.ContribiutersText} style={titleStyle}>{title}</span>
       <div
         className={style.bodyContainer}
         ref={bodyContainer}
@@ -120,25 +120,30 @@ function Contribiuters({ contribiuterNames, maxGapItems, minGapItems, paddingBod
           onClick={slideToLeft}
           hidden={!carouselNeeded}
           className={style.buttonSlideLeft}>
+          <GreaterThan/>
         </button>
         <div
           className={style.ContributerCardContainer}
           style={{ gap: `${carouselNeeded ? gapItems : maxGapItems}px` }}
         >
-          {contribiuterNames.map((name, index) =>
-          // make it a parameter of container?
-            <ContributerCard
-              key={index}
-              contributerCardWidth={ItemWidth}
-              slide={itemTransalte + (carouselNeeded && (gapItems) / 2)}
-              contributerName={name}
-            />
-          )}
+
+
+          {React.Children.map(children, child => {
+            return (<ContributerCard
+              onWidthUpdate={(childWidth) => setChildWidth(childWidth)}
+              style={{
+                transform: `translatex(${itemTransalte + (carouselNeeded && (gapItems) / 2)}px)`,
+                transition: "all 0.3s ease",
+              }}>
+              {child}
+            </ContributerCard>)
+          })}
         </div>
         <button
           onClick={slideToRight}
           hidden={!carouselNeeded}
           className={style.buttonSlideRight}>
+          <GreaterThan/>
         </button>
       </div>
     </div>
@@ -148,7 +153,6 @@ function Contribiuters({ contribiuterNames, maxGapItems, minGapItems, paddingBod
 export default Contribiuters
 
 Contribiuters.defaultProps = {
-  contribiuterNames: ["test", "test2"],
   maxGapItems: 24,
   minGapItems: 8,
   paddingBodyContainer: 60,
