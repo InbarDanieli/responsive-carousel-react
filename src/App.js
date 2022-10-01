@@ -1,6 +1,6 @@
 import './App.css';
 
-import Contribiuters from './lib/contribiuters/Contribiuters';
+import Carousel from './lib/carousel/Carousel';
 import Testy from './testComponent/ContributerCard';
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
   const swipeSensativity = 50
   return (
     <div className="App">
-      <Contribiuters
+      <Carousel
         title="test"
         contribiuterNames={contribiuterNames}
         maxGapItems={maxGapItems}
@@ -24,7 +24,7 @@ function App() {
         swipeSensativity={swipeSensativity}
       >
         {contribiuterNames.map(name => <Testy contributerName={name}></Testy>)}
-      </Contribiuters>
+      </Carousel>
     </div>
   );
 }
