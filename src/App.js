@@ -1,6 +1,6 @@
 import './App.css';
 
-import Carousel from './lib/carousel/Carousel';
+import { Carousel } from './lib';
 import Testy from './testComponent/ContributerCard';
 
 function App() {

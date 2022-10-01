@@ -5,7 +5,7 @@ import GreaterThan from '../GreaterThan'
 
 // TODO add Docs to *every* function
 
-function Carousel({ maxGapItems, minGapItems, paddingBodyContainer, swipeSensativity, title, children, carouselStyle, titleStyle }) {
+export function Carousel({ maxGapItems, minGapItems, paddingBodyContainer, swipeSensativity, title, children, carouselStyle, titleStyle }) {
   const bodyContainer = useRef()
   const [childWidth, setChildWidth] = useState(0)
   const [touchStart, setTouchStart] = useState(null)
@@ -147,8 +147,6 @@ function Carousel({ maxGapItems, minGapItems, paddingBodyContainer, swipeSensati
     </div>
   )
 }
-
-export default Carousel
 
 Carousel.defaultProps = {
   maxGapItems: 24,
