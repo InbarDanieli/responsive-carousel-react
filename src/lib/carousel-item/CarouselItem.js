@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-function ContributerCard({ style, children, onWidthUpdate }) {
+function CarouselItem({ style, children, onWidthUpdate }) {
   /**
    * @type {import("react").MutableRefObject <HTMLDivElement>}
    */
@@ -16,4 +16,4 @@ function ContributerCard({ style, children, onWidthUpdate }) {
   )
 }
 
-export default ContributerCard
+export default CarouselItem

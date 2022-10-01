@@ -1,13 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
-import style from "./Contribiuters.module.css"
-import ContributerCard from '../contributerCard/ContributerCard'
+import style from "./Carousel.module.css"
+import CarouselItem from '../carousel-item/CarouselItem'
 import GreaterThan from '../GreaterThan'
 
-// TODO ensble getting children elements
 // TODO add Docs to *every* function
 
-function Contribiuters({ maxGapItems, minGapItems, paddingBodyContainer, swipeSensativity, title, children, carouselStyle, titleStyle }) {
-  // TODO think what to do with it / from where to get it
+function Carousel({ maxGapItems, minGapItems, paddingBodyContainer, swipeSensativity, title, children, carouselStyle, titleStyle }) {
   const bodyContainer = useRef()
   const [childWidth, setChildWidth] = useState(0)
   const [touchStart, setTouchStart] = useState(null)
@@ -129,14 +127,14 @@ function Contribiuters({ maxGapItems, minGapItems, paddingBodyContainer, swipeSe
 
 
           {React.Children.map(children, child => {
-            return (<ContributerCard
+            return (<CarouselItem
               onWidthUpdate={(childWidth) => setChildWidth(childWidth)}
               style={{
                 transform: `translatex(${itemTransalte + (carouselNeeded && (gapItems) / 2)}px)`,
                 transition: "all 0.3s ease",
               }}>
               {child}
-            </ContributerCard>)
+            </CarouselItem>)
           })}
         </div>
         <button
@@ -150,9 +148,9 @@ function Contribiuters({ maxGapItems, minGapItems, paddingBodyContainer, swipeSe
   )
 }
 
-export default Contribiuters
+export default Carousel
 
-Contribiuters.defaultProps = {
+Carousel.defaultProps = {
   maxGapItems: 24,
   minGapItems: 8,
   paddingBodyContainer: 60,
