@@ -5,6 +5,19 @@ import GreaterThan from '../GreaterThan'
 
 // TODO add Docs to *every* function
 
+/**
+ * 
+ * @param {Object} param0 
+ * @param {number} [param0.maxGapItems]
+ * @param {number} [param0.minGapItems]
+ * @param {number} [param0.paddingBodyContainer]
+ * @param {number} [param0.swipeSensativity]
+ * @param {string} [param0.title]
+ * @param {import('react').CSSProperties} [param0.carouselStyle]
+ * @param {import('react').CSSProperties} [param0.titleStyle]
+ * @param {JSX.Element | readonly JSX.Element[]} param0.children
+ * @returns 
+ */
 export function Carousel({ maxGapItems, minGapItems, paddingBodyContainer, swipeSensativity, title, children, carouselStyle, titleStyle }) {
   const bodyContainer = useRef()
   const [childWidth, setChildWidth] = useState(0)
@@ -61,7 +74,7 @@ export function Carousel({ maxGapItems, minGapItems, paddingBodyContainer, swipe
   }
 
   /**
-   * *****************
+   *
    * @returns 
    */
   function onTouchEnd() {
@@ -81,7 +94,7 @@ export function Carousel({ maxGapItems, minGapItems, paddingBodyContainer, swipe
   }
 
   /**
-   * *************** what does it caculate
+   * *************** what does it caculate\
    * slide the items to the right
    * @returns {number}
    */
@@ -118,7 +131,7 @@ export function Carousel({ maxGapItems, minGapItems, paddingBodyContainer, swipe
           onClick={slideToLeft}
           hidden={!carouselNeeded}
           className={style.buttonSlideLeft}>
-          <GreaterThan/>
+          <GreaterThan />
         </button>
         <div
           className={style.ContributerCardContainer}
@@ -141,7 +154,7 @@ export function Carousel({ maxGapItems, minGapItems, paddingBodyContainer, swipe
           onClick={slideToRight}
           hidden={!carouselNeeded}
           className={style.buttonSlideRight}>
-          <GreaterThan/>
+          <GreaterThan />
         </button>
       </div>
     </div>
