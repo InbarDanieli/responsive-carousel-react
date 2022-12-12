@@ -1,14 +1,10 @@
 .container {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   padding: 24px;
   overflow: hidden;
   width: 100%;
-  height: -webkit-max-content;
-  height: -moz-max-content;
   height: max-content;
-  -webkit-box-shadow: 2px 2px 5px lightgrey;
-          box-shadow: 2px 2px 5px lightgrey;
+  box-shadow: 2px 2px 5px lightgrey;
 }
 
 .ContribiutersText {
@@ -23,8 +19,6 @@
 }
 
 .ContributerCardContainer {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   overflow-x: clip;
 }
@@ -41,11 +35,9 @@
 
 .buttonSlideLeft {
   left: 0;
-  -webkit-transform: rotate(180deg);
-          transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 
 .buttonSlideRight {
   right: 0;
 }
-/*# sourceMappingURL=Carousel.module.css.map */
