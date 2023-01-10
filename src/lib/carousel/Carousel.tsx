@@ -1,8 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
-import style from "./Carousel.module.css";
 import CarouselItem from "../carousel-item/CarouselItem";
 import GreaterThan from "../GreaterThan";
-
+import {
+  Container,
+  ContribiutersText,
+  BodyContainer,
+  ContributerCardContainer,
+  ButtonSlideLeft,
+  ButtonSlideRight
+} from "./CarouselStyle";
 // TODO add Docs to *every* function
 
 interface carouselInfo {
@@ -12,8 +18,8 @@ interface carouselInfo {
   swipeSensativity: number;
   title: string;
   children: JSX.Element | readonly JSX.Element[];
-  carouselStyle: import('react').CSSProperties;
-  titleStyle: import('react').CSSProperties;
+  carouselStyle: React.CSSProperties;
+  titleStyle: React.CSSProperties;
 }
 
 export function Carousel({
@@ -25,7 +31,7 @@ export function Carousel({
   children,
   carouselStyle,
   titleStyle,
-}: carouselInfo): JSX.Element {
+}: carouselInfo) {
   const bodyContainer = useRef<HTMLDivElement>(null);
   const [childWidth, setChildWidth] = useState<number>(0);
   const [touchStart, setTouchStart] = useState<number>();
@@ -85,14 +91,14 @@ export function Carousel({
   /**
    * save the location of the firt touch on the screen
    */
-  function onTouchStart(e:React.TouchEvent) {
+  function onTouchStart(e: React.TouchEvent) {
     setTouchStart(e.targetTouches[0].clientX);
   }
 
   /**
    * update the location where the finger swipes
    */
-  function onTouchMove(e:React.TouchEvent) {
+  function onTouchMove(e: React.TouchEvent) {
     setTouchEnd(e.targetTouches[0].clientX);
   }
 
@@ -153,12 +159,11 @@ export function Carousel({
 
 
   return (
-    <div className={style.container} style={carouselStyle}>
-      <span className={style.ContribiutersText} style={titleStyle}>
+    <Container>
+      <ContribiutersText style={titleStyle}>
         {title}
-      </span>
-      <div
-        className={style.bodyContainer}
+      </ContribiutersText>
+      <BodyContainer
         ref={bodyContainer}
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
@@ -167,15 +172,13 @@ export function Carousel({
           padding: `${carouselNeeded ? `0 ${paddingBodyContainer}px` : "0 0"}`,
         }}
       >
-        <button
+        <ButtonSlideLeft
           onClick={slideToLeft}
           hidden={!carouselNeeded}
-          className={style.buttonSlideLeft}
         >
           <GreaterThan />
-        </button>
-        <div
-          className={style.ContributerCardContainer}
+        </ButtonSlideLeft>
+        <ContributerCardContainer
           style={{ gap: `${carouselNeeded ? gapItems : maxGapItems}px` }}
         >
           {React.Children.map(children, (child) => {
@@ -194,16 +197,15 @@ export function Carousel({
               </CarouselItem>
             );
           })}
-        </div>
-        <button
+        </ContributerCardContainer>
+        <ButtonSlideRight
           onClick={slideToRight}
           hidden={!carouselNeeded}
-          className={style.buttonSlideRight}
         >
           <GreaterThan />
-        </button>
-      </div>
-    </div>
+        </ButtonSlideRight>
+      </BodyContainer>
+    </Container>
   );
 }
 
