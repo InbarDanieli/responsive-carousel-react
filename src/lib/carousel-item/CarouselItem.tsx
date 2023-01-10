@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 
 interface itemInfo{
-  style:import('react').CSSProperties,
+  style:React.CSSProperties,
   children: JSX.Element,
    onWidthUpdate: (arg:number)=>void
 }
